@@ -1,4 +1,4 @@
-# 🏦 BondVault – Tokenized Government Bond (RWA) Application
+# BondVault – Tokenized Government Bond (RWA) Application
 
 A modern **full-stack Web3 Real World Asset (RWA) application** that enables **tokenized government bonds** using **Solidity smart contracts** on the backend and a **React (Vite)** frontend integrated with **MetaMask**.
 
@@ -6,38 +6,38 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 
 ---
 
-## 🚀 Features
+##  Features
 
-### 🔹 1. Tokenized Government Bonds (RWA)
+###  1. Tokenized Government Bonds (RWA)
 - Government bonds represented as **ERC20-like tokens (GBOND)**
 - Each bond token represents fractional ownership
 - Fully on-chain issuance and tracking
 
-### 🔹 2. Fractional Bond Purchase with Stablecoin
+###  2. Fractional Bond Purchase with Stablecoin
 - Uses **MockUSDC** (6 decimals) as payment currency
 - Investors can buy bonds with any amount (fractional purchase)
 - Automatic conversion between USDC and bond tokens
 
-### 🔹 3. Time-Locked Bond Maturity
+###  3. Time-Locked Bond Maturity
 - Bonds have a **fixed maturity timestamp**
 - Redemption only allowed **after maturity**
 - Blockchain-enforced time lock (no manual intervention)
 
-### 🔹 4. Interest Calculation & Payout
+###  4. Interest Calculation & Payout
 - Fixed interest rate (e.g. 7%)
 - Interest calculated on-chain
 - Payout includes **principal + interest**
 
-### 🔹 5. Secure Redemption & Token Burn
+###  5. Secure Redemption & Token Burn
 - Bond tokens are **burned on redemption**
 - Prevents double claims
 - Ensures correct supply accounting
 
 ---
 
-## 🖥️ Frontend (React + Vite)
+##  Frontend (React + Vite)
 
-### 🔹 Features
+###  Features
 - Clean dashboard-style UI
 - Displays:
   - Wallet address
@@ -46,7 +46,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
   - Bond token (GBOND) balance
 - One-click wallet connection using **MetaMask**
 
-### 🔹 Tech
+###  Tech
 - **React** with **Vite** for fast builds
 - **ethers.js** for blockchain interaction
 - Reads live data directly from smart contracts
@@ -54,26 +54,26 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 
 ---
 
-## ⚙️ Backend (Blockchain / Smart Contracts)
+##  Backend (Blockchain / Smart Contracts)
 
-### 🔹 Smart Contracts
+###  Smart Contracts
 - **BondToken.sol** – ERC20-like bond token
 - **MockUSDC.sol** – Stablecoin for payments
 - **BondContract.sol** – Core bond logic
 
-### 🔹 Core Responsibilities
+###  Core Responsibilities
 - Bond issuance
 - Stablecoin transfers
 - Interest calculation
 - Time-based maturity enforcement
 - Secure redemption
 
-> ⚠️ No traditional backend server is required  
+>  No traditional backend server is required  
 > Blockchain itself acts as the backend
 
 ---
 
-## 🧠 How BondVault Works
+##  How BondVault Works
 
 1. Issuer deploys smart contracts
 2. Bond tokens are minted and assigned to BondContract
@@ -87,7 +87,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Tools |
 |-----|------|
@@ -101,13 +101,13 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 
 ---
 
-## 🧪 Local Development Setup
+##  Local Development Setup
 
-### 1️⃣ Start Local Blockchain
+### 1️ Start Local Blockchain
 ```bash
 npx hardhat node
 ```
-### 2️⃣ Deploy Smart Contracts
+### 2️ Deploy Smart Contracts
 ```bash
 npx hardhat run scripts/deploy.js --network localhost
 ```
