@@ -106,3 +106,14 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 ### 1️⃣ Start Local Blockchain
 ```bash
 npx hardhat node
+
+### 2️⃣ Deploy Smart Contracts
+```bash
+npx hardhat run scripts/deploy.js --network localhost
+
+### 3️⃣ Run Frontend
+```bash
+npm run dev
+
+### 4️⃣ Connect MetaMask
+- Import Hardhat test accounts if needed
