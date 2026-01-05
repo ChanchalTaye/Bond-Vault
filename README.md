@@ -111,9 +111,9 @@ npx hardhat node
 ```bash
 npx hardhat run scripts/deploy.js --network localhost
 ```
-### 3️⃣ Run Frontend
+### 3️ Run Frontend
 ```bash
 npm run dev
 ```
-### 4️⃣ Connect MetaMask
+### 4️ Connect MetaMask
 - Import Hardhat test accounts if needed
