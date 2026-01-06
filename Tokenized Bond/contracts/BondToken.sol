@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 /*
   BondToken
   - Represents ownership of a bond
-  - ERC20-like but minimal
+  - Minted on buy, burned on redeem
 */
 
 contract BondToken {
@@ -27,11 +27,8 @@ contract BondToken {
         _;
     }
 
-    constructor(uint256 _totalSupply) {
+    constructor() {
         issuer = msg.sender;
-        totalSupply = _totalSupply;
-        balanceOf[issuer] = _totalSupply;
-        emit Transfer(address(0), issuer, _totalSupply);
     }
 
     function approve(address spender, uint256 amount) external returns (bool) {
@@ -64,17 +61,21 @@ contract BondToken {
         return true;
     }
 
-    // 🔥 Burn bonds when redeemed (called by BondContract)
+    // Mint bonds on purchase
+    function mint(address to, uint256 amount) external onlyIssuer {
+        totalSupply += amount;
+        balanceOf[to] += amount;
+        emit Transfer(address(0), to, amount);
+    }
+
+    // Burn bonds on redeem
     function burnFrom(address from, uint256 amount) external onlyIssuer {
         require(balanceOf[from] >= amount, "Insufficient balance to burn");
-
         balanceOf[from] -= amount;
         totalSupply -= amount;
-
         emit Transfer(from, address(0), amount);
     }
 
-    // 🔁 Transfer issuer role to BondContract
     function transferIssuer(address newIssuer) external onlyIssuer {
         require(newIssuer != address(0), "Invalid issuer");
         address oldIssuer = issuer;
