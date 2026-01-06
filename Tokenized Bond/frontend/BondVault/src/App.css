@@ -1,42 +1,187 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+/* BASE */
+body {
+  background: radial-gradient(circle at top, #11152a, #0b0f1a 60%);
+  color: #eaeaea;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 40px 60px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 48px;
+}
+
+.header h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.wallet {
+  font-size: 0.85rem;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0.9;
+}
+
+/* DASHBOARD GRID */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* CARDS */
+.card {
+  background: linear-gradient(160deg, #14182b, #101426);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.card h3 {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+  margin-bottom: 14px;
+}
+
+.card p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  word-break: break-all;
+}
+
+/* HIGHLIGHT CARD */
+.highlight {
+  border: 1px solid #4f7cff;
+  background: linear-gradient(145deg, #1a2140, #121736);
+  box-shadow:
+    0 0 0 1px rgba(79, 124, 255, 0.3),
+    0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ACTIONS */
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+/* BUTTONS */
+button {
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background: linear-gradient(135deg, #4f7cff, #3b63f3);
+  color: white;
+  box-shadow: 0 10px 30px rgba(79, 124, 255, 0.35);
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(79, 124, 255, 0.5);
+}
+
+.secondary {
+  background: transparent;
+  color: #4f7cff;
+  border: 1px solid rgba(79, 124, 255, 0.7);
+}
+
+.secondary:hover {
+  background: rgba(79, 124, 255, 0.1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .app {
+    padding: 30px 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  /* MODAL */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: linear-gradient(160deg, #14182b, #101426);
+  padding: 30px;
+  border-radius: 16px;
+  width: 360px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.modal h2 {
+  margin-bottom: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.modal p {
+  font-size: 1.2rem;
+  margin-bottom: 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.modal input[type="range"] {
+  width: 100%;
+  margin: 16px 0 24px;
 }
 
-.card {
-  padding: 2em;
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
 
-.read-the-docs {
-  color: #888;
 }
