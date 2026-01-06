@@ -4,7 +4,7 @@ A modern **full-stack Web3 Real World Asset (RWA) application** that enables **t
 
 BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, earn **fixed interest**, and **securely redeem their bonds after maturity**, all on a local blockchain for demonstration and hackathon purposes.
 
----
+
 
 ##  Features
 
@@ -33,7 +33,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 - Prevents double claims
 - Ensures correct supply accounting
 
----
+
 
 ##  Frontend (React + Vite)
 
@@ -52,7 +52,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 - Reads live data directly from smart contracts
 - Localhost blockchain support (Hardhat)
 
----
+
 
 ##  Backend (Blockchain / Smart Contracts)
 
@@ -71,7 +71,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 >  No traditional backend server is required  
 > Blockchain itself acts as the backend
 
----
+
 
 ##  How BondVault Works
 
@@ -85,7 +85,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 8. Principal + interest is paid in USDC
 9. Bond tokens are burned
 
----
+
 
 ##  Tech Stack
 
@@ -99,7 +99,7 @@ BondVault allows users to **buy fractional bonds using a stablecoin (USDC)**, ea
 | **Network** | Hardhat Localhost |
 | **Version Control** | Git, GitHub |
 
----
+
 
 ##  Local Development Setup
 
@@ -117,3 +117,7 @@ npm run dev
 ```
 ### 4️ Connect MetaMask
 - Import Hardhat test accounts if needed
+
+
+## Documentation
+[BondVault Documentation.pdf](https://github.com/ChanchalTaye/Bond-Vault/blob/main/BondVault%20Documentation.pdf)
