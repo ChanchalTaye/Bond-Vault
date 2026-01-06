@@ -1,121 +1,171 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { CONTRACTS } from "./contracts";
+import "./App.css";
 
-// Minimal ERC20 ABI (read-only)
-const ERC20_ABI = [
-  "function balanceOf(address owner) view returns (uint256)",
-  "function decimals() view returns (uint8)",
-];
+export default function App() {
+  const [account, setAccount] = useState("");
+  const [ethBalance, setEthBalance] = useState("0");
+  const [usdcBalance, setUsdcBalance] = useState("5000");
+  const [bondBalance, setBondBalance] = useState("0");
 
-function App() {
-  const [account, setAccount] = useState(null);
-  const [ethBalance, setEthBalance] = useState(null);
-  const [usdcBalance, setUsdcBalance] = useState(null);
-  const [bondBalance, setBondBalance] = useState(null);
+  const [showBuyModal, setShowBuyModal] = useState(false);
+  const [buyAmount, setBuyAmount] = useState(1);
 
-  // Connect wallet
-  const connectWallet = async () => {
+  const BOND_PRICE = 100;
+
+  useEffect(() => {
+    connectWallet();
+  }, []);
+
+  async function connectWallet() {
     if (!window.ethereum) {
       alert("MetaMask not detected");
       return;
     }
 
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send("eth_requestAccounts", []);
+    const signer = await provider.getSigner();
 
-    setAccount(accounts[0]);
-  };
+    const address = await signer.getAddress();
+    setAccount(address);
 
-  // Auto-detect connected wallet
-  useEffect(() => {
-    if (!window.ethereum) return;
+    const eth = await provider.getBalance(address);
+    setEthBalance(ethers.formatEther(eth));
+  }
 
-    window.ethereum.request({ method: "eth_accounts" }).then((accounts) => {
-      if (accounts.length > 0) setAccount(accounts[0]);
-    });
-  }, []);
+  function buyBond() {
+    const totalCost = Number(buyAmount) * BOND_PRICE;
 
-  // ETH balance
-  useEffect(() => {
-    if (!account) return;
+    if (Number(usdcBalance) < totalCost) {
+      alert("Not enough USDC");
+      return;
+    }
 
-    window.ethereum
-      .request({
-        method: "eth_getBalance",
-        params: [account, "latest"],
-      })
-      .then((bal) => {
-        setEthBalance(parseInt(bal, 16) / 1e18);
-      });
-  }, [account]);
+    setUsdcBalance((prev) =>
+      (Number(prev) - totalCost).toString()
+    );
 
-  // USDC balance
-  useEffect(() => {
-    if (!account) return;
+    setBondBalance((prev) =>
+      (Number(prev) + Number(buyAmount)).toString()
+    );
 
-    const loadUSDC = async () => {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const usdc = new ethers.Contract(
-        CONTRACTS.USDC,
-        ERC20_ABI,
-        provider
-      );
+    setShowBuyModal(false);
+  }
 
-      const decimals = await usdc.decimals();
-      const bal = await usdc.balanceOf(account);
+  function redeemBond() {
+    if (Number(bondBalance) <= 0) {
+      alert("No bonds to redeem");
+      return;
+    }
 
-      setUsdcBalance(Number(ethers.formatUnits(bal, decimals)));
-    };
+    const payout = Number(bondBalance) * BOND_PRICE;
 
-    loadUSDC();
-  }, [account]);
+    setUsdcBalance((prev) =>
+      (Number(prev) + payout).toString()
+    );
 
-  // BondToken balance
-  useEffect(() => {
-    if (!account) return;
-
-    const loadBondToken = async () => {
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const bondToken = new ethers.Contract(
-        CONTRACTS.BOND_TOKEN,
-        ERC20_ABI,
-        provider
-      );
-
-      const decimals = await bondToken.decimals();
-      const bal = await bondToken.balanceOf(account);
-
-      setBondBalance(Number(ethers.formatUnits(bal, decimals)));
-    };
-
-    loadBondToken();
-  }, [account]);
+    setBondBalance("0");
+  }
 
   return (
-    <div style={{ padding: "40px", fontFamily: "sans-serif" }}>
-      <h1>BondVault</h1>
+    <div className="app">
+      <header className="header">
+        <h1>🏦 BondVault</h1>
+        <span className="wallet">
+          {account
+            ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`
+            : "Not Connected"}
+        </span>
+      </header>
 
-      {!account ? (
-        <button onClick={connectWallet}>Connect Wallet</button>
-      ) : (
-        <>
-          <p><strong>Wallet Address</strong></p>
-          <p>{account}</p>
+      <div className="dashboard">
+        <div className="card">
+          <h3>Wallet Address</h3>
+          <p>{account || "—"}</p>
+        </div>
 
-          <p><strong>ETH Balance</strong></p>
-          <p>{ethBalance?.toFixed(4)} ETH</p>
+        <div className="card">
+          <h3>ETH Balance</h3>
+          <p>{ethBalance} ETH</p>
+        </div>
 
-          <p><strong>USDC Balance</strong></p>
+        <div className="card">
+          <h3>USDC Balance</h3>
           <p>{usdcBalance} USDC</p>
+        </div>
 
-          <p><strong>Bond Tokens (GBOND)</strong></p>
+        <div className="card highlight">
+          <h3>Bond Tokens (GBOND)</h3>
           <p>{bondBalance} GBOND</p>
-        </>
+        </div>
+
+        <div className="actions">
+          <button
+            className="primary"
+            onClick={() => {
+              setBuyAmount(1);
+              setShowBuyModal(true);
+            }}
+          >
+            Buy Bonds
+          </button>
+          <button className="secondary" onClick={redeemBond}>
+            Redeem All Bonds
+          </button>
+        </div>
+
+        <div className="card">
+          <h3>Portfolio Overview</h3>
+          <p>Total Assets (Demo)</p>
+        </div>
+
+        <div className="card">
+          <h3>Projected Yield</h3>
+          <p>+{bondBalance * 5}% (Estimated)</p>
+        </div>
+
+        <div className="card">
+          <h3>Network</h3>
+          <p>Localhost 8545</p>
+        </div>
+
+        <div className="card">
+          <h3>Status</h3>
+          <p>Demo Mode Active</p>
+        </div>
+      </div>
+
+      {showBuyModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <h2>Buy Bonds</h2>
+            <p>
+              {buyAmount} Bond(s) • Cost: {buyAmount * BOND_PRICE} USDC
+            </p>
+
+            <input
+              type="range"
+              min="1"
+              max={Math.floor(usdcBalance / BOND_PRICE)}
+              value={buyAmount}
+              onChange={(e) => setBuyAmount(e.target.value)}
+            />
+
+            <div className="modal-actions">
+              <button className="primary" onClick={buyBond}>
+                Confirm Purchase
+              </button>
+              <button
+                className="secondary"
+                onClick={() => setShowBuyModal(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
 }
-
-export default App;
